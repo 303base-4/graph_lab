@@ -1,26 +1,30 @@
 #ifndef STATE_H_
 #define STATE_H_
-#include "suan_png.h"
 #include "pxl.h"
-#define	MAXV 100000
+#include "suan_png.h"
+
+#define MAXV 10000
 
 typedef struct ANode
-{	int adjvex;				
-	struct ANode *nextarc;//	
-	int weight;			
-} ArcNode;					
+{
+    int adjvex;
+    struct ANode *nextarc;
+    int weight;
+} ArcNode;
 typedef struct Vnode
-{	InfoType info;			
-	int count;				
-	ArcNode *firstarc;		
-} VNode;					
-typedef struct 
-{	VNode adjlist[MAXV];	
-	int n,e;					
-} AdjGraph;					
-struct State {
+{
+    int industry;
+    ArcNode *firstarc;
+} VNode;
+typedef struct
+{
+    VNode adjlist[MAXV];
+    int n, e;
+} AdjGraph; // 邻接表
+struct State
+{
     AdjGraph *G;
-    int pre[10000];
+    int pre[10000]; // 标记最短路上每个点的前驱
 };
 
 // function
