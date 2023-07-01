@@ -154,7 +154,7 @@ int solve_( struct State *s){
 	while(p!=NULL)
 	{
 	    int v=p->adjvex;
-	    if(d[v]>d[u]+p->weight)
+	    if(d[v]>d[u]+p->weight&&p->flag)
 	    {
 		d[v]=d[u]+p->weight;
 	    }
