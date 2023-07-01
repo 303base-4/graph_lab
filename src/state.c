@@ -16,6 +16,7 @@ void insert(struct State *s, int x, int y, int w) // 在s中，插入x指向y权
     p = (ArcNode *)malloc(sizeof(ArcNode));
     p->adjvex = y;
     p->weight = w;
+    p->flag = 1;
     p->nextarc = s->G->adjlist[x].firstarc;
     s->G->adjlist[x].firstarc = p;
 }

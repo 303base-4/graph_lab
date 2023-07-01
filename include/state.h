@@ -10,6 +10,7 @@ typedef struct ANode
     int adjvex;
     struct ANode *nextarc;
     int weight;
+    int flag;
 } ArcNode;
 typedef struct Vnode
 {
