@@ -3,7 +3,7 @@
 #include "pxl.h"
 #include "suan_png.h"
 
-#define MAXV 10000
+#define MAXV 10000 // 最大节点数
 
 typedef struct ANode
 {
@@ -24,8 +24,8 @@ typedef struct
 } AdjGraph; // 邻接表
 struct State
 {
-    AdjGraph *G;    // 邻接表
-    int pre[10000]; // 标记最短路上每个点的前驱
+    AdjGraph *G;   // 邻接表
+    int pre[MAXV]; // 标记最短路上每个点的前驱
 };
 
 // function
