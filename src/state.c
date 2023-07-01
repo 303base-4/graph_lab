@@ -190,7 +190,7 @@ void connect(struct State *s,int v,int u){
 
 int solve2(struct State *s){
     int min1=solve1(s);
-    int min2=0xffff;
+    int min2=2147483644;
     for(int i=s->G->n;i>1;i=s->pre[i]){
         del(s,i,s->pre[i]);
         del(s,s->pre[i],i);
