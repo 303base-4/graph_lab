@@ -130,8 +130,77 @@ int solve1(struct State *s)
     }
     return d[n];
 }
-int solve2(struct State *s)
-{
-    // TODO
-    return 0;
+int solve_( struct State *s){
+    int d[10000];
+    int vis[10000]={0};
+    int mind;
+    memset(d,0x3f,sizeof(d));
+    d[1]=0;
+    for(int i=1;i<=s->G->n;i++)
+    {
+	int mind=0xffffff0;
+	int u=0;
+	for(int j=1;j<=n;j++)
+	{
+	    if(vis[j]==0&&d[j]<mind)
+	    {
+		mind=d[j];
+		u=j;
+	    }
+	}
+	vis[u]=1;
+	ArcNode *p=s->G->adjlist[u].firstarc;
+	while(p!=NULL)
+	{
+	    int v=p->adjvex;
+	    if(d[v]>d[u]+p->weight)
+	    {
+		d[v]=d[u]+p->weight;
+	    }
+	    p=p->nextarc;
+	}
+    }
+    return d[n];
+
+
+
+}
+
+void del(struct State *s,int v,int u){
+    ArcNode *p=s->G->adjlist[v].firstarc;
+    while(p!=NULL){
+        if(p->adjvex==u){
+            p->flag=0;
+            return;
+        }
+        p=p->nextarc;
+    }
+}
+
+void connect(struct State *s,int v,int u){
+    ArcNode *p=s->G->adjlist[v].firstarc;
+    while(p!=NULL){
+        if(p->adjvex==u){
+            p->flag=1;
+            return;
+        }
+        p=p->nextarc;
+    }
+}
+
+int solve2(struct State *s){
+    int min1=solve1(s);
+    int min2=0xffff;
+    for(int i=s->G->n;i>1;i=s->pre[i]){
+        del(s,i,s->pre[i]);
+        del(s,s->pre[i],i);
+        int tmp=solve_(s);
+        if(tmp<min2&&tmp>min1){
+            min2=tmp;
+        }
+        connect(s,i,s->pre[i]);
+        connect(s,s->pre[i],i);
+    }
+    return min2;
+    
 }
