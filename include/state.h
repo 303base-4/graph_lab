@@ -2,10 +2,25 @@
 #define STATE_H_
 #include "suan_png.h"
 #include "pxl.h"
+#define	MAXV 100000
 
-
+typedef struct ANode
+{	int adjvex;				
+	struct ANode *nextarc;//	
+	int weight;			
+} ArcNode;					
+typedef struct Vnode
+{	InfoType info;			
+	int count;				
+	ArcNode *firstarc;		
+} VNode;					
+typedef struct 
+{	VNode adjlist[MAXV];	
+	int n,e;					
+} AdjGraph;					
 struct State {
-    // data structure
+    AdjGraph *G;
+    int pre[10000];
 };
 
 // function
