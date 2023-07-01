@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int industry(struct PXL *p)
+int industry(struct PXL *p) // 计算像素p对应的发达程度
 {
     int m = 255 * 255 * 3 - p->red * p->red - p->blue * p->blue - p->green * p->green;
     return m;
@@ -21,7 +21,7 @@ void insert(struct State *s, int x, int y, int w) // 在s中，插入x指向y权
     s->G->adjlist[x].firstarc = p;
 }
 
-void init_State(struct State *s)
+void init_State(struct State *s) // 初始化s,其中pre数组初始化为1，adjlist[].firstarc初始化为NULL
 {
     s->G = (AdjGraph *)malloc(sizeof(AdjGraph));
     for (int i = 0; i < MAXV; i++)
@@ -32,7 +32,7 @@ void init_State(struct State *s)
     s->G->n = 0;
     s->G->e = 0;
 }
-void delete_State(struct State *s)
+void delete_State(struct State *s) // 释放s中元素的内存
 {
     for (int i = 1; i <= s->G->n; i++)
     {
@@ -47,13 +47,14 @@ void delete_State(struct State *s)
     }
     free(s->G);
 }
-void parse(struct State *s, struct PNG *p)
+void parse(struct State *s, struct PNG *p) // 利用p中的信息建图，存放于s中
 {
-    struct PXL *pxl;
-    int x = 6, y = 4;
-    int m, count = 0;
-    int no[p->height + 1][p->width + 1];
+    struct PXL *pxl;                     // pxl用于临时存储像素指针
+    int x = 6, y = 4;                    // 第一个点的中心点所在座标。x为纵座标，y为横座标
+    int m, count = 0;                    // m用于临时存储发达程度，count用于点计数
+    int no[p->height + 1][p->width + 1]; // 用no[x][y]表示像素(x,y)对应的点的编号
     memset(no, 0, sizeof(no));
+    // 先建点
     while (x < p->height)
     {
         while (y < p->width)
@@ -65,13 +66,17 @@ void parse(struct State *s, struct PNG *p)
                 s->G->adjlist[++count].industry = m;
                 no[x][y] = count;
             }
-            y = y + 4;
+            y = y + 4; // 每次向右移动半格，以保证探测精度
         }
         y = 0;
         x = x + 8;
     }
-    const int MOV[3][2] = {{-8, 4}, {0, 8}, {8, 4}};
+    const int MOV[3][2] = {
+        {-8, 4},
+        {0, 8},
+        {8, 4}}; // MOV数组用于探测目的节点。对于每个节点，探测其右上、右、右下三个节点，如果存在则双向建边
     s->G->n = count;
+    // 接下来插入边
     x = 6, y = 4;
     while (x < p->height)
     {
@@ -88,6 +93,7 @@ void parse(struct State *s, struct PNG *p)
                     int no2 = no[x1][y1];
                     insert(s, no1, no2, s->G->adjlist[no2].industry);
                     insert(s, no2, no1, s->G->adjlist[no1].industry);
+                    s->G->e += 2;
                 }
             }
             y += 4;

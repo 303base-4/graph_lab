@@ -7,24 +7,24 @@
 
 typedef struct ANode
 {
-    int adjvex;
-    struct ANode *nextarc;
-    int weight;
-    int flag;
+    int adjvex;            // 边的目标节点
+    struct ANode *nextarc; // 下一条边
+    int weight;            // 边的权值
+    int flag;              // 标记边是否删除
 } ArcNode;
 typedef struct Vnode
 {
-    int industry;
-    ArcNode *firstarc;
+    int industry;      // 该节点的发达程度
+    ArcNode *firstarc; // 该节点连接的第一条边
 } VNode;
 typedef struct
 {
-    VNode adjlist[MAXV];
+    VNode adjlist[MAXV]; // 节点列表
     int n, e;
 } AdjGraph; // 邻接表
 struct State
 {
-    AdjGraph *G;
+    AdjGraph *G;    // 邻接表
     int pre[10000]; // 标记最短路上每个点的前驱
 };
 
