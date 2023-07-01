@@ -100,10 +100,10 @@ int solve1(struct State *s)
 {
     int d[10000];
     int vis[10000]={0};
-    int mind;
+    int n=s->G->n;
     memset(d,0x3f,sizeof(d));
     d[1]=0;
-    for(int i=1;i<=s->G->n;i++)
+    for(int i=1;i<=n;i++)
     {
 	int mind=0xffffff0;
 	int u=0;
@@ -134,9 +134,10 @@ int solve_( struct State *s){
     int d[10000];
     int vis[10000]={0};
     int mind;
+    int n=s->G->n;
     memset(d,0x3f,sizeof(d));
     d[1]=0;
-    for(int i=1;i<=s->G->n;i++)
+    for(int i=1;i<=n;i++)
     {
 	int mind=0xffffff0;
 	int u=0;
